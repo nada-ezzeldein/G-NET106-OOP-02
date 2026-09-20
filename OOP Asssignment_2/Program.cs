@@ -209,6 +209,31 @@
             }
         }
         #endregion
+
+        #region ExpressShipment Class
+        public class ExpressShipment : Shipment
+        {
+            private decimal extraFee;
+
+            public decimal ExtraFee
+            {
+                get { return extraFee; }
+                set
+                {
+                    if (value >= 0)
+                    {
+                        extraFee = value;
+                    }
+                }
+            }
+
+            public ExpressShipment(string trackingCode, string description, double weight, decimal deliveryFee, DeliveryAddress destination, decimal extraFee)
+                : base(trackingCode, description, weight, deliveryFee, destination)
+            {
+                ExtraFee = extraFee >= 0 ? extraFee : 0m;
+            }
+        }
+        #endregion
         static void Main(string[] args)
         {
             #region Question 1
