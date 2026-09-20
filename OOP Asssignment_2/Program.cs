@@ -94,7 +94,7 @@
             }
 
             public DeliveryAddress Destination { get; set; }
-            public decimal EstimatedCost
+            public virtual decimal EstimatedCost
             {
                 get
                 {
@@ -231,6 +231,60 @@
                 : base(trackingCode, description, weight, deliveryFee, destination)
             {
                 ExtraFee = extraFee >= 0 ? extraFee : 0m;
+            }
+            public override decimal EstimatedCost
+            {
+                get
+                {
+                    return base.EstimatedCost + ExtraFee;
+                }
+            }
+        }
+        #endregion
+
+        #region InternationalShipment Class
+        public class InternationalShipment : Shipment
+        {
+            private string destinationCountry;
+            private decimal customsFee;
+
+            public string DestinationCountry
+            {
+                get { return destinationCountry; }
+                set
+                {
+                    if (!string.IsNullOrWhiteSpace(value))
+                    {
+                        destinationCountry = value;
+                    }
+                }
+            }
+
+            public decimal CustomsFee
+            {
+                get { return customsFee; }
+                set
+                {
+                    if (value >= 0)
+                    {
+                        customsFee = value;
+                    }
+                }
+            }
+
+            public InternationalShipment(string trackingCode, string description, double weight, decimal deliveryFee, DeliveryAddress destination, string destinationCountry, decimal customsFee)
+                : base(trackingCode, description, weight, deliveryFee, destination)
+            {
+                DestinationCountry = string.IsNullOrWhiteSpace(destinationCountry) ? "Unknown" : destinationCountry;
+                CustomsFee = customsFee >= 0 ? customsFee : 0m;
+            }
+
+            public override decimal EstimatedCost
+            {
+                get
+                {
+                    return base.EstimatedCost + CustomsFee;
+                }
             }
         }
         #endregion
