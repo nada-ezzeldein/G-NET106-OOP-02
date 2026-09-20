@@ -194,6 +194,21 @@
         }
         #endregion
         #endregion
+
+        #region StandardShipment Class
+        public class StandardShipment : Shipment
+        {
+            public StandardShipment(string trackingCode, string description, double weight, decimal deliveryFee, DeliveryAddress destination)
+                : base(trackingCode, description, weight, deliveryFee, destination)
+            {
+            }
+
+            public StandardShipment(string trackingCode)
+                : base(trackingCode)
+            {
+            }
+        }
+        #endregion
         static void Main(string[] args)
         {
             #region Question 1
