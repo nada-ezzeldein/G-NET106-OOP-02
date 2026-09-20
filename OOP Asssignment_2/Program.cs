@@ -360,7 +360,31 @@
             #endregion
 
 
-
+            #region demonstration of the classes
+            DeliveryCenter mainCenter = new DeliveryCenter("Cairo Central Hub");
+            DeliveryAddress address1 = new DeliveryAddress("El Fayoum", "El mesalla", 18);
+            DeliveryAddress address2 = new DeliveryAddress("El Ta7reie", "El Metro", 6);
+            DeliveryAddress address3 = new DeliveryAddress("El 3taba", "Caro", 2006);
+            StandardShipment stdShipment = new StandardShipment("TRK-001", "Books", 2.5, 30.0m, address1);
+            ExpressShipment expShipment = new ExpressShipment("TRK-002", "Food", 1.2, 40.0m, address2, 25.0m);
+            InternationalShipment intShipment = new InternationalShipment("TRK-003", "Iphone 18", 5.0, 100.0m, address3, "El Nada Hospiital", 150.0m);
+            Console.WriteLine("Adding Shipments:");
+            Console.WriteLine($"Added Standard: {mainCenter.AddShipment(stdShipment)}");
+            Console.WriteLine($"Added Express: {mainCenter.AddShipment(expShipment)}");
+            Console.WriteLine($"Added International: {mainCenter.AddShipment(intShipment)}");
+            mainCenter.PrintAllShipments();
+            Console.WriteLine("Indexer:");
+            Shipment foundShipment = mainCenter["TRK-002"];
+            if (foundShipment != null)
+            {
+                Console.WriteLine($"Found shipment description: {foundShipment.Description}");
+                Console.WriteLine($"Polymorphic Estimated Cost: {foundShipment.EstimatedCost}"); 
+            }
+            Console.WriteLine("Shipment Removal:");
+            bool isRemoved = mainCenter.RemoveShipment("TRK-001");
+            Console.WriteLine($"Was 'TRK-001' removed? {isRemoved}");
+            mainCenter.PrintAllShipments();
+            #endregion
         }
     }
 }
