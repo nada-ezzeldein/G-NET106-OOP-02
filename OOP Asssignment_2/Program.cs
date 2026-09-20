@@ -122,14 +122,16 @@
         }
         #endregion
 
-        #region DeliveryCenter class
+        #region DeliveryCenter class (Edited)
         public class DeliveryCenter
         {
+            private string centerName;
             private Shipment[] shipments;
             private int count;
-            public DeliveryCenter()
+            public DeliveryCenter(string centerName = "Main Center")
             {
-                shipments = new Shipment[10];
+                this.centerName = centerName;
+                shipments = new Shipment[20]; 
                 count = 0;
             }
 
@@ -179,10 +181,10 @@
             {
                 if (shipments == null)
                 {
-                    shipments = new Shipment[10];
+                    shipments = new Shipment[20];
                 }
 
-                if (count >= 10)
+                if (count >= 20 || shipment == null)
                 {
                     return false;
                 }
@@ -190,6 +192,55 @@
                 shipments[count] = shipment;
                 count++;
                 return true;
+            }
+            public bool RemoveShipment(string trackingCode)
+            {
+                if (string.IsNullOrWhiteSpace(trackingCode) || count == 0)
+                {
+                    return false;
+                }
+
+                int indexToRemove = -1;
+                for (int i = 0; i < count; i++)
+                {
+                    if (shipments[i]?.TrackingCode != null &&
+                        shipments[i].TrackingCode.Equals(trackingCode, StringComparison.OrdinalIgnoreCase))
+                    {
+                        indexToRemove = i;
+                        break;
+                    }
+                }
+                if (indexToRemove == -1)
+                {
+                    return false;
+                }
+                for (int i = indexToRemove; i < count - 1; i++)
+                {
+                    shipments[i] = shipments[i + 1];
+                }
+                shipments[count - 1] = null;
+                count--;
+
+                return true;
+            }
+            public void PrintAllShipments()
+            {
+                Console.WriteLine($"--- Delivery Center: {centerName} ---");
+                Console.WriteLine($"Total Shipments: {count} / 20");
+                Console.WriteLine(new string('=', 30));
+
+                if (count == 0)
+                {
+                    Console.WriteLine("No shipments available in this center.");
+                }
+                else
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        Console.WriteLine($"Shipment {i + 1}:");
+                        shipments[i].PrintShipment(); 
+                    }
+                }
             }
         }
         #endregion
