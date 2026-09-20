@@ -15,6 +15,13 @@
             #endregion
 
 
+            #region Question 2
+            // a) shipment
+            // b) ExpressShipment
+            // c) TrackingCode
+            // d) Inheritance allows for code reusability and reduces redundancy, making the codebase easier to maintain and extend.
+            #endregion
+
 
 
         }
